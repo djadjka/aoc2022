@@ -34,7 +34,7 @@ fn first(collected_lines: &Vec<String>) {
 
         sum += priority + 1;
     }
-    println!("{}", sum);
+    println!("first answer: {}", sum);
 }
 
 fn second(collected_lines: &Vec<String>) {
@@ -53,7 +53,7 @@ fn second(collected_lines: &Vec<String>) {
             }
         }
     }
-    println!("{}", sum);
+    println!("second answer: {}", sum);
 }
 
 fn main() -> Result<(), io::Error> {
