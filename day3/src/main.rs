@@ -5,15 +5,17 @@ use std::io::BufReader;
 
 static FILE_PATH: &str = "./day3/input";
 
-fn set_priorities(l: &str, v: &mut Vec<u8>) {
+fn set_priorities(l: &str) -> u64 {
+    let mut p: u64 = 0;
     for c in l.chars() {
         let ascii_code = c as usize;
         if ascii_code >= 97 {
-            v[ascii_code - 97] += 1;
+            p |= 1<<(ascii_code - 97);
         } else {
-            v[ascii_code - 39] += 1;
+            p |= 1<<(ascii_code - 39);
         }
     }
+    p
 }
 
 fn first(collected_lines: &Vec<String>) {
@@ -21,18 +23,12 @@ fn first(collected_lines: &Vec<String>) {
     for l in collected_lines {
         let first_compartments = &l[..l.len() / 2];
         let second_compartments = &l[l.len() / 2..];
-        let mut first_priorities: Vec<u8> = vec![0; 52];
-        let mut second_priorities: Vec<u8> = vec![0; 52];
-        set_priorities(first_compartments, &mut first_priorities);
-        set_priorities(second_compartments, &mut second_priorities);
-        
-        let priority = first_priorities
-            .into_iter()
-            .zip(second_priorities)
-            .position(|a| a.0 >= 1 && a.1 >= 1)
-            .expect("must contain the same item");
 
-        sum += priority + 1;
+        let first_priorities: u64 = set_priorities(first_compartments);
+        let second_priorities: u64 = set_priorities(second_compartments);
+
+        let priority = (first_priorities & second_priorities).trailing_zeros();
+        sum += priority;
     }
     println!("first answer: {}", sum);
 }
@@ -40,18 +36,9 @@ fn first(collected_lines: &Vec<String>) {
 fn second(collected_lines: &Vec<String>) {
     let mut sum = 0;
     for backpacks in collected_lines.chunks(3) {
-        let mut priorities: Vec<_> = vec![vec![0; 52]; 3];
-
-        for (backpack, mut prioritie) in backpacks.iter().zip(priorities.iter_mut()) {
-            set_priorities(backpack, &mut prioritie);
-        }
-
-        for i in 0..52 {
-            if priorities[0][i] >= 1 && priorities[1][i] >= 1 && priorities[2][i] >= 1 {
-                sum += i + 1;
-                break;
-            }
-        }
+        let priorities: Vec<u64> = backpacks.iter().map(|s| set_priorities(&s)).collect();
+        let priority = (priorities[0] & priorities[1] & priorities[2]).trailing_zeros();
+        sum += priority;
     }
     println!("second answer: {}", sum);
 }
