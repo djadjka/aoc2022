@@ -27,7 +27,7 @@ fn first(collected_lines: &Vec<String>) {
         let first_priorities: u64 = set_priorities(first_compartments);
         let second_priorities: u64 = set_priorities(second_compartments);
 
-        let priority = (first_priorities & second_priorities).trailing_zeros();
+        let priority = (first_priorities & second_priorities).trailing_zeros() +1;
         sum += priority;
     }
     println!("first answer: {}", sum);
@@ -37,7 +37,7 @@ fn second(collected_lines: &[String]) {
     let mut sum = 0;
     for backpacks in collected_lines.chunks(3) {
         let priorities: Vec<u64> = backpacks.iter().map(|s| set_priorities(s)).collect();
-        let priority = (priorities[0] & priorities[1] & priorities[2]).trailing_zeros();
+        let priority = (priorities[0] & priorities[1] & priorities[2]).trailing_zeros() +1;
         sum += priority;
     }
     println!("second answer: {}", sum);
