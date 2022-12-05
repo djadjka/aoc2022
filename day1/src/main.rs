@@ -14,7 +14,7 @@ fn main() -> Result<(),Error> {
 
     for line in reader.lines() {
         let l = line?;
-        if l == "" {
+        if l.is_empty() {
             elfs_calories.push(cur_elf_calories);
             cur_elf_calories = 0;
         } else {
@@ -23,6 +23,6 @@ fn main() -> Result<(),Error> {
     }
     elfs_calories.sort_by(|a,b| b.cmp(a));
     println!("first answer: {}", elfs_calories[0]);
-    println!("second answer: {}", (&elfs_calories[0..3]).iter().sum::<usize>());
+    println!("second answer: {}", elfs_calories[0..3].iter().sum::<usize>());
     Ok(())
 }

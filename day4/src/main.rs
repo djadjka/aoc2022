@@ -15,9 +15,9 @@ fn main() -> Result<(), io::Error> {
     for l in reader.lines() {
         let line = l?;
         let ranges: Vec<Vec<usize>> = line
-            .split(",") 
+            .split(',') 
             .map(|s| {
-                s.split("-")
+                s.split('-')
                     .map(|s| s.parse().expect("must be a number"))
                     .collect()
             })

@@ -22,8 +22,8 @@ fn proces_comand(
     let mut platforms: Vec<Vec<String>> = vec![Vec::new(); number_platforms];
 
     for level in levels {
-        for (i, b) in level.into_iter().enumerate() {
-            if b != "" {
+        for (i, b) in level.iter().enumerate() {
+            if !b.is_empty() {
                 platforms[i].push(b.clone());
             }
         }
@@ -63,7 +63,7 @@ fn main() -> Result<(), io::Error> {
 
     let collected_lines: Result<Vec<String>, _> = reader.lines().collect();
     let collected_lines = collected_lines?;
-    let split_position = collected_lines.iter().position(|e| e == "").unwrap();
+    let split_position = collected_lines.iter().position(|e| e.is_empty()).unwrap();
 
     let platforms = &collected_lines[0..split_position - 1];
 

@@ -12,7 +12,7 @@ fn run(is_second: bool) -> Result<usize, io::Error> {
     for line in reader.lines() {
         let line = line?;
 
-        let choices: Vec<&str> = line.split(" ").collect();
+        let choices: Vec<&str> = line.split(' ').collect();
         let first_player_choice =
             choices[0].chars().next().expect("must contain symbol") as i8 - 65;
         let outcome = choices[1].chars().next().expect("must contain symbol") as i8 - 88;
